@@ -100,7 +100,7 @@ const Pricing = () => {
                 className="w-full"
                 size="lg"
               >
-                Get Started
+                Select Plan
               </Button>
             </Card>
           ))}
