@@ -1,8 +1,12 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Zap } from "lucide-react";
 import heroImage from "@/assets/hero-bg.jpg";
+import { AuthDialog } from "./AuthDialog";
 
 const Hero = () => {
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
+
   return (
     <section 
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
@@ -32,7 +36,12 @@ const Hero = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button variant="hero" size="lg" className="min-w-[200px]">
+          <Button 
+            variant="hero" 
+            size="lg" 
+            className="min-w-[200px]"
+            onClick={() => setAuthDialogOpen(true)}
+          >
             Start Mining Now
             <ArrowRight className="ml-2 w-5 h-5" />
           </Button>
@@ -40,6 +49,8 @@ const Hero = () => {
             Learn More
           </Button>
         </div>
+
+        <AuthDialog open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 max-w-4xl mx-auto">
           <div className="text-center">
