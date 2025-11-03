@@ -54,7 +54,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
         description: "You've successfully logged in.",
       });
       
-      onSuccess();
+      window.location.href = '/dashboard';
     } catch (error) {
       toast({
         title: "Error",

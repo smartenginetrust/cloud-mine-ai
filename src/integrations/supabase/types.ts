@@ -14,7 +14,146 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      balances: {
+        Row: {
+          btc_balance: number
+          created_at: string
+          eth_balance: number
+          id: string
+          rvn_balance: number
+          stx_balance: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          btc_balance?: number
+          created_at?: string
+          eth_balance?: number
+          id?: string
+          rvn_balance?: number
+          stx_balance?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          btc_balance?: number
+          created_at?: string
+          eth_balance?: number
+          id?: string
+          rvn_balance?: number
+          stx_balance?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      earnings: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          earned_at: string
+          id: string
+          subscription_id: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency: string
+          earned_at?: string
+          id?: string
+          subscription_id: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          earned_at?: string
+          id?: string
+          subscription_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "earnings_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          created_at: string
+          daily_profit: number
+          end_date: string | null
+          hashrate: number
+          id: string
+          plan_name: string
+          plan_type: string
+          start_date: string
+          status: string
+          total_profit: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          daily_profit: number
+          end_date?: string | null
+          hashrate: number
+          id?: string
+          plan_name: string
+          plan_type: string
+          start_date?: string
+          status?: string
+          total_profit?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          daily_profit?: number
+          end_date?: string | null
+          hashrate?: number
+          id?: string
+          plan_name?: string
+          plan_type?: string
+          start_date?: string
+          status?: string
+          total_profit?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

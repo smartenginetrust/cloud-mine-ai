@@ -46,7 +46,10 @@ export const SignUpForm = ({ onSuccess }: SignUpFormProps) => {
         email: values.email,
         password: values.password,
         options: {
-          emailRedirectTo: redirectUrl,
+          emailRedirectTo: `${window.location.origin}/dashboard`,
+          data: {
+            full_name: values.email.split('@')[0]
+          }
         },
       });
 
