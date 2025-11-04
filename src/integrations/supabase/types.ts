@@ -47,6 +47,39 @@ export type Database = {
         }
         Relationships: []
       }
+      devices: {
+        Row: {
+          created_at: string
+          description: string | null
+          device_type: string
+          hashrate: number
+          id: string
+          image_url: string | null
+          name: string
+          price: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          device_type: string
+          hashrate: number
+          id?: string
+          image_url?: string | null
+          name: string
+          price: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          device_type?: string
+          hashrate?: number
+          id?: string
+          image_url?: string | null
+          name?: string
+          price?: number
+        }
+        Relationships: []
+      }
       earnings: {
         Row: {
           amount: number
@@ -112,6 +145,36 @@ export type Database = {
         }
         Relationships: []
       }
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          referral_code: string
+          referred_id: string
+          referrer_id: string
+          reward_amount: number
+          status: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referral_code: string
+          referred_id: string
+          referrer_id: string
+          reward_amount?: number
+          status?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referral_code?: string
+          referred_id?: string
+          referrer_id?: string
+          reward_amount?: number
+          status?: string
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           created_at: string
@@ -154,12 +217,83 @@ export type Database = {
         }
         Relationships: []
       }
+      user_devices: {
+        Row: {
+          created_at: string
+          device_id: string
+          expiry_date: string | null
+          id: string
+          purchase_date: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_id: string
+          expiry_date?: string | null
+          id?: string
+          purchase_date?: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_id?: string
+          expiry_date?: string | null
+          id?: string
+          purchase_date?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_devices_device_id_fkey"
+            columns: ["device_id"]
+            isOneToOne: false
+            referencedRelation: "devices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      withdrawals: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          id: string
+          processed_at: string | null
+          status: string
+          user_id: string
+          wallet_address: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency: string
+          id?: string
+          processed_at?: string | null
+          status?: string
+          user_id: string
+          wallet_address: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          processed_at?: string | null
+          status?: string
+          user_id?: string
+          wallet_address?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_referral_code: { Args: { user_id: string }; Returns: string }
     }
     Enums: {
       [_ in never]: never
