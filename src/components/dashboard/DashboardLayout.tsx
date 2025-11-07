@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, Pickaxe, Server, Wallet, Users, LogOut } from "lucide-react";
+import { Home, Pickaxe, Server, Wallet, Users, LogOut, Shield } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -36,6 +36,25 @@ function DashboardSidebar() {
   const navigate = useNavigate();
   const { open } = useSidebar();
   const currentPath = window.location.pathname;
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    checkAdminStatus();
+  }, []);
+
+  const checkAdminStatus = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (user) {
+      const { data: roles } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+      
+      setIsAdmin(!!roles);
+    }
+  };
 
   const isActive = (path: string) => currentPath === path;
 
@@ -60,6 +79,17 @@ function DashboardSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {isAdmin && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    onClick={() => navigate("/admin")}
+                    className={isActive("/admin") ? "bg-muted text-primary font-medium" : "hover:bg-muted/50"}
+                  >
+                    <Shield className="h-4 w-4" />
+                    {open && <span>Admin Panel</span>}
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

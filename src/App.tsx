@@ -9,6 +9,7 @@ import HashratePlans from "./pages/HashratePlans";
 import MiningDevices from "./pages/MiningDevices";
 import Withdraw from "./pages/Withdraw";
 import Referrals from "./pages/Referrals";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/dashboard/devices" element={<MiningDevices />} />
           <Route path="/dashboard/withdraw" element={<Withdraw />} />
           <Route path="/dashboard/referrals" element={<Referrals />} />
+          <Route path="/admin" element={<Admin />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
