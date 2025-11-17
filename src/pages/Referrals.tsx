@@ -35,10 +35,7 @@ export default function Referrals() {
       // Fetch referrals
       const { data: referralsData, error: referralsError } = await supabase
         .from('referrals')
-        .select(`
-          *,
-          profiles!referrals_referred_id_fkey(full_name)
-        `)
+        .select('*')
         .eq('referrer_id', user.id)
         .order('created_at', { ascending: false });
 
@@ -222,10 +219,10 @@ export default function Referrals() {
                     </div>
                     <div>
                       <div className="font-semibold">
-                        {referral.profiles?.full_name || 'User'}
+                        Referred User
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        Joined {new Date(referral.created_at).toLocaleDateString()}
+                        Code: {referral.referral_code} • Joined {new Date(referral.created_at).toLocaleDateString()}
                       </div>
                     </div>
                   </div>
