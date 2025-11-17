@@ -33,16 +33,29 @@ export default function Dashboard() {
         .from('balances')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
       if (balanceError) throw balanceError;
+
+      // Create balance record if it doesn't exist
+      let balance = balanceData;
+      if (!balance) {
+        const { data: newBalance, error: createError } = await supabase
+          .from('balances')
+          .insert({ user_id: user.id })
+          .select()
+          .single();
+        
+        if (createError) throw createError;
+        balance = newBalance;
+      }
       
-      if (balanceData) {
+      if (balance) {
         setBalances({
-          btc: parseFloat(String(balanceData.btc_balance || 0)),
-          eth: parseFloat(String(balanceData.eth_balance || 0)),
-          rvn: parseFloat(String(balanceData.rvn_balance || 0)),
-          stx: parseFloat(String(balanceData.stx_balance || 0))
+          btc: parseFloat(String(balance.btc_balance || 0)),
+          eth: parseFloat(String(balance.eth_balance || 0)),
+          rvn: parseFloat(String(balance.rvn_balance || 0)),
+          stx: parseFloat(String(balance.stx_balance || 0))
         });
       }
 
