@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { BalanceCard } from "@/components/dashboard/BalanceCard";
 import { MiningDetails } from "@/components/dashboard/MiningDetails";
+import { LatestTransactions } from "@/components/dashboard/LatestTransactions";
+import { RecentBlocks } from "@/components/dashboard/RecentBlocks";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
@@ -151,6 +153,11 @@ export default function Dashboard() {
               Learn More →
             </Button>
           </Card>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <LatestTransactions />
+          <RecentBlocks />
         </div>
 
         <Card className="p-6">
