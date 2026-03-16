@@ -7,83 +7,38 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Check, Zap } from "lucide-react";
 
-const plans = [
-  {
-    name: "Starter",
-    price: "99",
-    description: "Perfect for beginners exploring cloud mining",
-    hashrate: 1000,
-    profit: 0.0000015,
-    type: "BTC",
-    features: [
-      "1 TH/s mining power",
-      "Basic AI optimization",
-      "Email support",
-      "Daily payouts",
-      "Standard security",
-    ],
-    popular: false,
-  },
-  {
-    name: "Professional",
-    price: "299",
-    description: "Ideal for serious miners seeking growth",
-    hashrate: 5000,
-    profit: 0.0000075,
-    type: "BTC",
-    features: [
-      "5 TH/s mining power",
-      "Advanced AI optimization",
-      "Priority support",
-      "Real-time payouts",
-      "Enhanced security",
-      "Analytics dashboard",
-    ],
-    popular: true,
-  },
-  {
-    name: "Enterprise",
-    price: "999",
-    description: "Maximum power for professional operations",
-    hashrate: 20000,
-    profit: 0.00003,
-    type: "BTC",
-    features: [
-      "20 TH/s mining power",
-      "Premium AI optimization",
-      "24/7 dedicated support",
-      "Instant payouts",
-      "Maximum security",
-      "Advanced analytics",
-      "Custom configuration",
-      "API access",
-    ],
-    popular: false,
-  },
-];
-
 export default function HashratePlans() {
+  const [plans, setPlans] = useState<any[]>([]);
   const [activeSubscriptions, setActiveSubscriptions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchSubscriptions();
+    fetchData();
   }, []);
 
-  const fetchSubscriptions = async () => {
+  const fetchData = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data, error } = await supabase
-        .from('subscriptions')
+      
+      const { data: plansData } = await supabase
+        .from('hashrate_plans' as any)
         .select('*')
-        .eq('user_id', user.id)
-        .eq('status', 'active');
+        .eq('is_active', true)
+        .order('price', { ascending: true });
 
-      if (error) throw error;
-      setActiveSubscriptions(data || []);
+      if (plansData) setPlans(plansData as any);
+
+      if (user) {
+        const { data, error } = await supabase
+          .from('subscriptions')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('status', 'active');
+
+        if (error) throw error;
+        setActiveSubscriptions(data || []);
+      }
     } catch (error: any) {
       toast({
         title: "Error",
