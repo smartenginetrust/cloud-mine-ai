@@ -292,6 +292,10 @@ export default function Admin() {
             </Card>
           </TabsContent>
 
+          <TabsContent value="plans">
+            <HashratePlansManager />
+          </TabsContent>
+
           <TabsContent value="users">
             <Card>
               <CardHeader>
