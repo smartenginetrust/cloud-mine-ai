@@ -141,16 +141,16 @@ export default function HashratePlans() {
         <div>
           <h2 className="text-xl font-semibold mb-4">Available Plans</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {plans.map((plan, index) => (
+            {plans.map((plan) => (
               <Card 
-                key={index}
+                key={plan.id}
                 className={`p-8 relative overflow-hidden transition-smooth ${
-                  plan.popular 
+                  plan.is_popular 
                     ? 'border-primary glow-effect-strong scale-105' 
                     : 'border-border hover:border-primary/50 hover:glow-effect'
                 }`}
               >
-                {plan.popular && (
+                {plan.is_popular && (
                   <div className="absolute top-0 right-0 bg-primary text-primary-foreground px-4 py-1 text-xs font-semibold rounded-bl-lg">
                     POPULAR
                   </div>
@@ -166,7 +166,7 @@ export default function HashratePlans() {
                 </div>
                 
                 <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
+                  {(plan.features || []).map((feature: string, featureIndex: number) => (
                     <li key={featureIndex} className="flex items-start gap-3">
                       <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                       <span className="text-sm">{feature}</span>
@@ -175,7 +175,7 @@ export default function HashratePlans() {
                 </ul>
                 
                 <Button 
-                  variant={plan.popular ? "default" : "outline"} 
+                  variant={plan.is_popular ? "default" : "outline"} 
                   className="w-full"
                   size="lg"
                   onClick={() => handleSelectPlan(plan)}
