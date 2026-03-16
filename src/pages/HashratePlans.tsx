@@ -7,83 +7,38 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Check, Zap } from "lucide-react";
 
-const plans = [
-  {
-    name: "Starter",
-    price: "99",
-    description: "Perfect for beginners exploring cloud mining",
-    hashrate: 1000,
-    profit: 0.0000015,
-    type: "BTC",
-    features: [
-      "1 TH/s mining power",
-      "Basic AI optimization",
-      "Email support",
-      "Daily payouts",
-      "Standard security",
-    ],
-    popular: false,
-  },
-  {
-    name: "Professional",
-    price: "299",
-    description: "Ideal for serious miners seeking growth",
-    hashrate: 5000,
-    profit: 0.0000075,
-    type: "BTC",
-    features: [
-      "5 TH/s mining power",
-      "Advanced AI optimization",
-      "Priority support",
-      "Real-time payouts",
-      "Enhanced security",
-      "Analytics dashboard",
-    ],
-    popular: true,
-  },
-  {
-    name: "Enterprise",
-    price: "999",
-    description: "Maximum power for professional operations",
-    hashrate: 20000,
-    profit: 0.00003,
-    type: "BTC",
-    features: [
-      "20 TH/s mining power",
-      "Premium AI optimization",
-      "24/7 dedicated support",
-      "Instant payouts",
-      "Maximum security",
-      "Advanced analytics",
-      "Custom configuration",
-      "API access",
-    ],
-    popular: false,
-  },
-];
-
 export default function HashratePlans() {
+  const [plans, setPlans] = useState<any[]>([]);
   const [activeSubscriptions, setActiveSubscriptions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchSubscriptions();
+    fetchData();
   }, []);
 
-  const fetchSubscriptions = async () => {
+  const fetchData = async () => {
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { data, error } = await supabase
-        .from('subscriptions')
+      
+      const { data: plansData } = await supabase
+        .from('hashrate_plans' as any)
         .select('*')
-        .eq('user_id', user.id)
-        .eq('status', 'active');
+        .eq('is_active', true)
+        .order('price', { ascending: true });
 
-      if (error) throw error;
-      setActiveSubscriptions(data || []);
+      if (plansData) setPlans(plansData as any);
+
+      if (user) {
+        const { data, error } = await supabase
+          .from('subscriptions')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('status', 'active');
+
+        if (error) throw error;
+        setActiveSubscriptions(data || []);
+      }
     } catch (error: any) {
       toast({
         title: "Error",
@@ -95,7 +50,7 @@ export default function HashratePlans() {
     }
   };
 
-  const handleSelectPlan = async (plan: typeof plans[0]) => {
+  const handleSelectPlan = async (plan: any) => {
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) {
@@ -113,9 +68,9 @@ export default function HashratePlans() {
         .insert({
           user_id: user.id,
           plan_name: plan.name,
-          plan_type: plan.type,
+          plan_type: plan.plan_type,
           hashrate: plan.hashrate,
-          daily_profit: plan.profit,
+          daily_profit: plan.daily_profit,
           status: 'active'
         });
 
@@ -126,7 +81,7 @@ export default function HashratePlans() {
         description: `${plan.name} plan activated successfully`,
       });
 
-      fetchSubscriptions();
+      fetchData();
     } catch (error: any) {
       toast({
         title: "Error",
@@ -186,16 +141,16 @@ export default function HashratePlans() {
         <div>
           <h2 className="text-xl font-semibold mb-4">Available Plans</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {plans.map((plan, index) => (
+            {plans.map((plan) => (
               <Card 
-                key={index}
+                key={plan.id}
                 className={`p-8 relative overflow-hidden transition-smooth ${
-                  plan.popular 
+                  plan.is_popular 
                     ? 'border-primary glow-effect-strong scale-105' 
                     : 'border-border hover:border-primary/50 hover:glow-effect'
                 }`}
               >
-                {plan.popular && (
+                {plan.is_popular && (
                   <div className="absolute top-0 right-0 bg-primary text-primary-foreground px-4 py-1 text-xs font-semibold rounded-bl-lg">
                     POPULAR
                   </div>
@@ -211,7 +166,7 @@ export default function HashratePlans() {
                 </div>
                 
                 <ul className="space-y-3 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
+                  {(plan.features || []).map((feature: string, featureIndex: number) => (
                     <li key={featureIndex} className="flex items-start gap-3">
                       <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                       <span className="text-sm">{feature}</span>
@@ -220,7 +175,7 @@ export default function HashratePlans() {
                 </ul>
                 
                 <Button 
-                  variant={plan.popular ? "default" : "outline"} 
+                  variant={plan.is_popular ? "default" : "outline"} 
                   className="w-full"
                   size="lg"
                   onClick={() => handleSelectPlan(plan)}

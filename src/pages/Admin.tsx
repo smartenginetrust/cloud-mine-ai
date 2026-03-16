@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Trash2, Users, Server } from "lucide-react";
+import { Plus, Trash2, Users, Server, Pickaxe } from "lucide-react";
+import { HashratePlansManager } from "@/components/admin/HashratePlansManager";
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -161,10 +162,14 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="devices" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="devices" className="flex items-center gap-2">
               <Server className="h-4 w-4" />
               Devices
+            </TabsTrigger>
+            <TabsTrigger value="plans" className="flex items-center gap-2">
+              <Pickaxe className="h-4 w-4" />
+              Hashrate Plans
             </TabsTrigger>
             <TabsTrigger value="users" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
@@ -285,6 +290,10 @@ export default function Admin() {
                 </Table>
               </CardContent>
             </Card>
+          </TabsContent>
+
+          <TabsContent value="plans">
+            <HashratePlansManager />
           </TabsContent>
 
           <TabsContent value="users">

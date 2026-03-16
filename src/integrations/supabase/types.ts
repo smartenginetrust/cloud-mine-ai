@@ -118,6 +118,51 @@ export type Database = {
           },
         ]
       }
+      hashrate_plans: {
+        Row: {
+          created_at: string
+          daily_profit: number
+          description: string | null
+          features: string[]
+          hashrate: number
+          id: string
+          is_active: boolean
+          is_popular: boolean
+          name: string
+          plan_type: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          daily_profit: number
+          description?: string | null
+          features?: string[]
+          hashrate: number
+          id?: string
+          is_active?: boolean
+          is_popular?: boolean
+          name: string
+          plan_type?: string
+          price: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          daily_profit?: number
+          description?: string | null
+          features?: string[]
+          hashrate?: number
+          id?: string
+          is_active?: boolean
+          is_popular?: boolean
+          name?: string
+          plan_type?: string
+          price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
