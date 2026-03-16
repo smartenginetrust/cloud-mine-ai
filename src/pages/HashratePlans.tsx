@@ -50,7 +50,7 @@ export default function HashratePlans() {
     }
   };
 
-  const handleSelectPlan = async (plan: typeof plans[0]) => {
+  const handleSelectPlan = async (plan: any) => {
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) {
@@ -68,9 +68,9 @@ export default function HashratePlans() {
         .insert({
           user_id: user.id,
           plan_name: plan.name,
-          plan_type: plan.type,
+          plan_type: plan.plan_type,
           hashrate: plan.hashrate,
-          daily_profit: plan.profit,
+          daily_profit: plan.daily_profit,
           status: 'active'
         });
 
@@ -81,7 +81,7 @@ export default function HashratePlans() {
         description: `${plan.name} plan activated successfully`,
       });
 
-      fetchSubscriptions();
+      fetchData();
     } catch (error: any) {
       toast({
         title: "Error",
