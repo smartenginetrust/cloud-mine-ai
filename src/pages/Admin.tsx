@@ -10,7 +10,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Trash2, Users, Server } from "lucide-react";
+import { Plus, Trash2, Users, Server, Pickaxe } from "lucide-react";
+import { HashratePlansManager } from "@/components/admin/HashratePlansManager";
 
 export default function Admin() {
   const navigate = useNavigate();
