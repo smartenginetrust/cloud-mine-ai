@@ -164,14 +164,22 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="devices" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="devices" className="flex items-center gap-2">
               <Server className="h-4 w-4" />
               Devices
             </TabsTrigger>
             <TabsTrigger value="plans" className="flex items-center gap-2">
               <Pickaxe className="h-4 w-4" />
-              Hashrate Plans
+              Plans
+            </TabsTrigger>
+            <TabsTrigger value="deposits" className="flex items-center gap-2">
+              <ArrowDownToLine className="h-4 w-4" />
+              Deposits
+            </TabsTrigger>
+            <TabsTrigger value="withdrawals" className="flex items-center gap-2">
+              <Wallet className="h-4 w-4" />
+              Withdrawals
             </TabsTrigger>
             <TabsTrigger value="users" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
