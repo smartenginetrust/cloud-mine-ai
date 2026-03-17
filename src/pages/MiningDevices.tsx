@@ -57,42 +57,8 @@ export default function MiningDevices() {
     }
   };
 
-  const handlePurchaseDevice = async (device: any) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to purchase a device",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('user_devices')
-        .insert({
-          user_id: user.id,
-          device_id: device.id,
-          status: 'active'
-        });
-
-      if (error) throw error;
-
-      toast({
-        title: "Success!",
-        description: `${device.name} purchased successfully`,
-      });
-
-      fetchData();
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    }
+  const handlePurchaseDevice = (device: any) => {
+    navigate(`/dashboard/deposit?type=device&id=${device.id}&name=${encodeURIComponent(device.name)}&price=${device.price}`);
   };
 
   return (
