@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import HashratePlans from "./pages/HashratePlans";
 import MiningDevices from "./pages/MiningDevices";
+import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
 import Referrals from "./pages/Referrals";
 import Admin from "./pages/Admin";
