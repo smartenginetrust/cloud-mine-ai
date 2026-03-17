@@ -10,8 +10,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Trash2, Users, Server, Pickaxe } from "lucide-react";
+import { Plus, Trash2, Users, Server, Pickaxe, ArrowDownToLine, Wallet } from "lucide-react";
 import { HashratePlansManager } from "@/components/admin/HashratePlansManager";
+import { DepositsManager } from "@/components/admin/DepositsManager";
+import { WithdrawalsManager } from "@/components/admin/WithdrawalsManager";
 
 export default function Admin() {
   const navigate = useNavigate();
@@ -162,14 +164,22 @@ export default function Admin() {
         </div>
 
         <Tabs defaultValue="devices" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="devices" className="flex items-center gap-2">
               <Server className="h-4 w-4" />
               Devices
             </TabsTrigger>
             <TabsTrigger value="plans" className="flex items-center gap-2">
               <Pickaxe className="h-4 w-4" />
-              Hashrate Plans
+              Plans
+            </TabsTrigger>
+            <TabsTrigger value="deposits" className="flex items-center gap-2">
+              <ArrowDownToLine className="h-4 w-4" />
+              Deposits
+            </TabsTrigger>
+            <TabsTrigger value="withdrawals" className="flex items-center gap-2">
+              <Wallet className="h-4 w-4" />
+              Withdrawals
             </TabsTrigger>
             <TabsTrigger value="users" className="flex items-center gap-2">
               <Users className="h-4 w-4" />
@@ -294,6 +304,14 @@ export default function Admin() {
 
           <TabsContent value="plans">
             <HashratePlansManager />
+          </TabsContent>
+
+          <TabsContent value="deposits">
+            <DepositsManager />
+          </TabsContent>
+
+          <TabsContent value="withdrawals">
+            <WithdrawalsManager />
           </TabsContent>
 
           <TabsContent value="users">
