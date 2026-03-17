@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ export default function MiningDevices() {
   const [userDevices, setUserDevices] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -55,42 +57,8 @@ export default function MiningDevices() {
     }
   };
 
-  const handlePurchaseDevice = async (device: any) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to purchase a device",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('user_devices')
-        .insert({
-          user_id: user.id,
-          device_id: device.id,
-          status: 'active'
-        });
-
-      if (error) throw error;
-
-      toast({
-        title: "Success!",
-        description: `${device.name} purchased successfully`,
-      });
-
-      fetchData();
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    }
+  const handlePurchaseDevice = (device: any) => {
+    navigate(`/dashboard/deposit?type=device&id=${device.id}&name=${encodeURIComponent(device.name)}&price=${device.price}`);
   };
 
   return (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ export default function HashratePlans() {
   const [activeSubscriptions, setActiveSubscriptions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -50,45 +52,8 @@ export default function HashratePlans() {
     }
   };
 
-  const handleSelectPlan = async (plan: any) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to select a plan",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('subscriptions')
-        .insert({
-          user_id: user.id,
-          plan_name: plan.name,
-          plan_type: plan.plan_type,
-          hashrate: plan.hashrate,
-          daily_profit: plan.daily_profit,
-          status: 'active'
-        });
-
-      if (error) throw error;
-
-      toast({
-        title: "Success!",
-        description: `${plan.name} plan activated successfully`,
-      });
-
-      fetchData();
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    }
+  const handleSelectPlan = (plan: any) => {
+    navigate(`/dashboard/deposit?type=plan&id=${plan.id}&name=${encodeURIComponent(plan.name)}&price=${plan.price}`);
   };
 
   return (

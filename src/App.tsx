@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Dashboard from "./pages/Dashboard";
 import HashratePlans from "./pages/HashratePlans";
 import MiningDevices from "./pages/MiningDevices";
+import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
 import Referrals from "./pages/Referrals";
 import Admin from "./pages/Admin";
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/plans" element={<HashratePlans />} />
           <Route path="/dashboard/devices" element={<MiningDevices />} />
+          <Route path="/dashboard/deposit" element={<Deposit />} />
           <Route path="/dashboard/withdraw" element={<Withdraw />} />
           <Route path="/dashboard/referrals" element={<Referrals />} />
           <Route path="/admin" element={<Admin />} />

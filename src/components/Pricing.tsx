@@ -1,8 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Check } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 
 const plans = [
@@ -61,48 +59,10 @@ const plans = [
 ];
 
 const Pricing = () => {
-  const { toast } = useToast();
   const navigate = useNavigate();
 
-  const handleSelectPlan = async (plan: typeof plans[0]) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      toast({
-        title: "Authentication Required",
-        description: "Please log in to select a plan",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    try {
-      const { error } = await supabase
-        .from('subscriptions')
-        .insert({
-          user_id: user.id,
-          plan_name: plan.name,
-          plan_type: plan.type,
-          hashrate: plan.hashrate,
-          daily_profit: plan.profit,
-          status: 'active'
-        });
-
-      if (error) throw error;
-
-      toast({
-        title: "Success!",
-        description: `${plan.name} activated successfully`,
-      });
-
-      navigate('/dashboard');
-    } catch (error: any) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    }
+  const handleSelectPlan = (plan: typeof plans[0]) => {
+    navigate(`/dashboard/deposit?type=plan&name=${encodeURIComponent(plan.name)}&price=${plan.price}`);
   };
 
   return (
