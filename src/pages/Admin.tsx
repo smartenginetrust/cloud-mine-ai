@@ -306,6 +306,14 @@ export default function Admin() {
             <HashratePlansManager />
           </TabsContent>
 
+          <TabsContent value="deposits">
+            <DepositsManager />
+          </TabsContent>
+
+          <TabsContent value="withdrawals">
+            <WithdrawalsManager />
+          </TabsContent>
+
           <TabsContent value="users">
             <Card>
               <CardHeader>
