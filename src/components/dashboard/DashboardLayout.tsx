@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, Pickaxe, Server, Wallet, Users, LogOut, Shield } from "lucide-react";
+import { Home, Pickaxe, Server, ArrowDownToLine, Wallet, Users, LogOut, Shield } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
