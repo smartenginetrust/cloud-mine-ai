@@ -28,6 +28,7 @@ const menuItems = [
   { title: "Overview", url: "/dashboard", icon: Home },
   { title: "Hashrate plans", url: "/dashboard/plans", icon: Pickaxe },
   { title: "Mining devices", url: "/dashboard/devices", icon: Server },
+  { title: "Deposit", url: "/dashboard/deposit", icon: ArrowDownToLine },
   { title: "Withdraw", url: "/dashboard/withdraw", icon: Wallet },
   { title: "Referral program", url: "/dashboard/referrals", icon: Users },
 ];
